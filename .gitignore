@@ -1,0 +1,17 @@
+.DS_Store
+node_modules/
+/coverage
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+selenium-debug.log
+dist/
+src/**/*.js
+types/
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
