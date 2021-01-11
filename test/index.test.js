@@ -6,9 +6,9 @@ function wait (time, data = 0) {
 }
 test('default', () => {
   const $wait = oneHandle(wait)
-  $wait(1).then(data => expect(0).toBe(data))
-  $wait(1).then(data => expect(0).toBe(data))
-  $wait(1).then(data => expect(0).toBe(data))
+  $wait(100, 1).then(data => expect(1).toBe(data))
+  $wait(1000, 2).then(data => expect(1).toBe(data))
+  $wait(1, 3).then(data => expect(1).toBe(data))
 })
 test('cache', () => {
   const $wait = oneHandle(wait, true)

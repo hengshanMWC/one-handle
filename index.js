@@ -1,4 +1,14 @@
-module.exports = function (fn, cache) {
+/// <reference path="./index.d.ts">
+'use strict'
+/**
+ * 多次调用，响应一次，可开缓存
+ * 
+ * @param {Function} fn 一个返回Promise的函数
+ * @param {Boolean} cache 是否开启缓存
+ * @param {*} context 上下文
+ * @returns {Function} return Promise的闭包
+ */
+function oneHandle (fn, cache, context) {
   const queueThen = []
   const queueCatch = []
   let cacheData
@@ -12,7 +22,7 @@ module.exports = function (fn, cache) {
       } else {
         queueThen.push(resolve)
         queueCatch.push(reject)
-        fn(...arg)
+        fn.call(context, ...arg)
           .then(data => {
             if (cache) cacheData = data
             queueThen.forEach(then => then(data))
@@ -27,4 +37,7 @@ module.exports = function (fn, cache) {
       }
     })
   }
+}
+if ('undefined' !== typeof module) {
+  module.exports = oneHandle
 }

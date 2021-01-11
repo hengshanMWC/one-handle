@@ -1,15 +1,18 @@
 {
   "name": "one-handle",
   "version": "1.0.0",
-  "description": "多次调用，响应一次",
-  "main": "/dist/boxCat.cjs.min.js",
-  "model": "/dist/boxCat.esm.min.js",
-  "unpkg": "/dist/boxCat.js",
+  "description": "多次调用，响应一次，可开缓存",
+  "main": "index.js",
+  "typings": "index.d.ts",
   "scripts": {
-    "build": "node build/rollup.config.js",
     "test:cov": "jest --coverage",
     "test": "jest"
   },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "README.md"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hengshanMWC/one-handle.git"
@@ -28,6 +31,5 @@
     "@types/jest": "^25.2.1",
     "jest": "^25.5.4"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
