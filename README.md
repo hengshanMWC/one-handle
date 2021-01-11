@@ -8,7 +8,9 @@ one-handle接受一个return Promise的函数生成一个闭包，
 （resolve还是reject）
 ## Introduction
 下载方式
+
 npm i one-handle
+
 yarn add one-handle
 ```js
 // 引入方式
@@ -34,10 +36,10 @@ $wait1(1, 3).then(data => console.log('只触发一次', data)) // 只触发一�
 const $wait2 = oneHandle(wait, true)
 // 第一次调用成功返回的值缓存起来，下次调用都会取这个值
 $wait2(1, false).then(data => {
-    console.log(false)
+    console.log('缓存起来', data) // 缓存起来 false
     return $wait2(1, 50)
   })
-    .then(data => console.log(false))
+    .then(data => console.log('使用缓存', data)) // 使用缓存 false
 ```
 ## Options
 ```js

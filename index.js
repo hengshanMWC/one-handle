@@ -1,4 +1,3 @@
-/// <reference path="./index.d.ts">
 'use strict'
 /**
  * 多次调用，响应一次，可开缓存
