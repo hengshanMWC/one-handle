@@ -12,7 +12,7 @@ function oneHandle (fn, cache, context) {
   const queueThen = []
   const queueCatch = []
   let cacheData
-  return function (...arg) {
+  return function () {
     return new Promise((resolve, reject) => {
       if (cacheData !== undefined) {
         resolve(cacheData)
@@ -22,7 +22,7 @@ function oneHandle (fn, cache, context) {
       } else {
         queueThen.push(resolve)
         queueCatch.push(reject)
-        fn.call(context, ...arg)
+        fn.apply(context, arguments)
           .then(data => {
             if (cache) cacheData = data
             queueThen.forEach(then => then(data))
