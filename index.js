@@ -25,7 +25,10 @@ function oneHandle (key, fn, cache, context) {
         queueCatch.push(reject)
         params.fn.apply(params.context, arguments)
           .then(data => {
-            if (params.cache) cacheData = data
+            if (params.cache) {
+              localStorage.setItem(params.key, data)
+              cacheData = data
+            }
             queueThen.forEach(then => then(data))
             queueThen.length = 0
             queueCatch.length = 0
@@ -37,6 +40,11 @@ function oneHandle (key, fn, cache, context) {
           })
       }
     })
+  }
+  if (params.key) {
+    result.$removeItem = function () {
+      localStorage.removeItem(params.key)
+    }
   }
   return result
 }
