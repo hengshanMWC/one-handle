@@ -1,3 +1,4 @@
+require('jest-localstorage-mock')
 const oneHandle = require('../index')
 function wait (time, data = 0) {
   return new Promise(resolve => {
@@ -18,6 +19,19 @@ test('cache', () => {
   })
     .then(data => expect(false).toBe(data))
 })
+// test('localStorage', () => {
+//   const VALUE = 'a'
+//   const KEY = 'foo'
+//   const $wait = oneHandle(KEY, wait, true)
+//   $wait(1, VALUE).then(data => {
+//     expect(VALUE).toBe(data)
+//     return $wait(1, 50)
+//   })
+//     .then(data => expect(VALUE).toBe(data))
+//   expect(localStorage.setItem).toHaveBeenLastCalledWith(KEY, VALUE);
+//   expect(localStorage.__STORE__[KEY]).toBe(VALUE)
+//   $wait.$clear()
+// })
 test('try', () => {
   function waitTry (time, data = 0) {
     return new Promise(resolve => {

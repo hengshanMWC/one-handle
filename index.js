@@ -2,17 +2,19 @@
 /**
  * 多次调用，响应一次，可开缓存
  * 
- * @param {string | Function} key 开启localStorage | 一个返回Promise的函数
- * @param {Function | boolean} fn 一个返回Promise的函数 | 是否开启缓存
- * @param {boolean | object} cache 是否开启缓存 | 上下文
- * @param {object} context 上下文
+ * @param {Function} fn 一个返回Promise的函数 | 是否开启缓存
+ * @param {boolean | string} cache 是否开启闭包缓存 | 开启localStorage
+ * @param {string | object} storageType 缓存方式 | 上下文
+ * @param {object | string} context 上下文 | 缓存方式
  * @returns {()=>Promise} return Promise的闭包
  */
-function oneHandle (key, fn, cache, context) {
+function oneHandle (fn, cache, storageType, context) {
   const queueThen = []
   const queueCatch = []
-  const params = paramConcoct(key, fn , cache, context)
-  let cacheData = localStorage.getItem(params.key)
+  if (typeof storageType === 'object') {
+    [ storageType, context ] = [ context, storageType ]
+  }
+  let cacheData = getCache(cache, storageType)
   function result () {
     return new Promise((resolve, reject) => {
       if (cacheData !== undefined && cacheData !== null) {
@@ -23,11 +25,10 @@ function oneHandle (key, fn, cache, context) {
       } else {
         queueThen.push(resolve)
         queueCatch.push(reject)
-        params.fn.apply(params.context, arguments)
+        fn.apply(context, arguments)
           .then(data => {
-            if (params.cache) {
-              localStorage.setItem(params.key, data)
-              cacheData = data
+            if (cache) {
+              cacheData = setCache(cache, storageType, data)
             }
             queueThen.forEach(then => then(data))
             queueThen.length = 0
@@ -41,32 +42,25 @@ function oneHandle (key, fn, cache, context) {
       }
     })
   }
-  if (params.key) {
-    result.$removeItem = function () {
-      localStorage.removeItem(params.key)
+  if (typeof cache === 'string') {
+    result.$clear = function () {
+      g[storageType].removeItem(cache)
     }
   }
   return result
 }
-function paramConcoct (key, fn , cache, context) {
-  let result
-  if (typeof key === 'function') {
-    result = {
-      fn: key,
-      cache: fn,
-      context: cache
-    }
-  } else {
-    result = {
-      key,
-      fn,
-      cache,
-      context,
-    }
+const g = typeof window === 'object' ? window : global
+function getCache (cache, storageType) {
+  if (typeof cache === 'string') {
+    return g[storageType].getItem(cache)
   }
-  return result
 }
-
+function setCache (cache, storageType, data) {
+  if (typeof cache === 'string') {
+    g[storageType].setItem(cache, data)
+  }
+  return data
+}
 if ('undefined' !== typeof module) {
   module.exports = oneHandle
 }
