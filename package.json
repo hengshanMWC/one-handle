@@ -3,7 +3,6 @@
   "version": "1.0.1",
   "description": "多次调用，响应一次，可开缓存",
   "main": "index.js",
-  "typings": "index.d.ts",
   "scripts": {
     "test:cov": "jest --coverage",
     "test": "jest"
