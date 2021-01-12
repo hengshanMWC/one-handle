@@ -26,7 +26,8 @@
   "homepage": "https://github.com/hengshanMWC/one-handle#readme",
   "devDependencies": {
     "@types/jest": "^25.2.1",
-    "jest": "^25.5.4"
+    "jest": "^25.5.4",
+    "jest-localstorage-mock": "^2.4.6"
   },
   "dependencies": {}
 }

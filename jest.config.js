@@ -5,4 +5,5 @@ module.exports = {
     "<rootDir>/test"
   ],
   moduleFileExtensions: ['js'],
+  setupFiles: ['jest-localstorage-mock']
 }
