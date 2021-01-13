@@ -44,12 +44,11 @@ test('localStorage&getCache', () => {
     })
     .then(data => {
       expect(objValue).toBe(data)
+      // 测试同key情况
       $wait2 = oneHandle(wait, KEY)
       return $wait2(1, {a: 2})
     })
-    .then(data => {
-      expect(objValue).toBe(data)
-    })
+    .then(data => expect(objValue).toBe(data))
 })
 test('sessionStorage&context', () => {
   const VALUE = 'a'

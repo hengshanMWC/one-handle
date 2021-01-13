@@ -48,6 +48,9 @@ function oneHandle (fn, cache, storageType, context) {
       g[storageType].removeItem(cache)
       cacheData = undefined
     }
+    result.$update = function () {
+      cacheData = getCache(cache, storageType)
+    }
   }
   return result
 }
