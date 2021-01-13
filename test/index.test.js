@@ -9,7 +9,7 @@ function wait (time, data = 0) {
 }
 test('default', done => {
   const $wait = oneHandle(wait)
-  $wait(100, 1).then(data => expect(1).toBe(data))
+  $wait(1, 1).then(data => expect(1).toBe(data))
   $wait(1000, 2).then(data => expect(1).toBe(data))
   $wait(1, 3).then(data => {
     expect(1).toBe(data)
@@ -39,9 +39,9 @@ test('localStorage&getCache', done => {
   })
     .then(data => {
       expect(VALUE).toBe(data)
-      expect(localStorage.getItem($wait.$cacheKey)).toBe(data)
+      expect($wait.$getData()).toBe(data)
       $wait.$clear()
-      expect(localStorage.getItem($wait.$cacheKey)).toBe(null)
+      expect($wait.$getData()).toBe(null)
       return $wait(1, objValue)
     })
     .then(data => {
@@ -69,7 +69,7 @@ test('localStorage&getCache', done => {
     })
 })
 test('sessionStorage&context', done => {
-  const VALUE = 'a'
+  const VALUE = '1\n1' // 故意拿来测试getData内部走报错
   const KEY = 'sessionStorage&context'
   const obj = {
     wait (time, data = 0) {
@@ -80,15 +80,18 @@ test('sessionStorage&context', done => {
     }
   }
   const $wait = oneHandle(obj.wait, KEY, obj, 'sessionStorage')
+  let $wait2
   $wait(1, VALUE).then(data => {
     expect(VALUE).toBe(data)
     return $wait(1, 50)
   })
     .then(data => {
       expect(VALUE).toBe(data)
-      expect(sessionStorage.getItem($wait.$cacheKey)).toBe(data)
+      expect($wait.$getData()).toBe(data)
+      $wait2 = oneHandle(obj.wait, KEY, 'sessionStorage', obj)
+      expect($wait2.$getData()).toBe($wait.$getData())
       $wait.$clear()
-      expect(sessionStorage.getItem($wait.$cacheKey)).toBe(null)
+      expect($wait.$getData()).toBe(null)
       return $wait(1, true)
     })
     .then(data => {
