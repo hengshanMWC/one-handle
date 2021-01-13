@@ -1,4 +1,4 @@
-module.exports = function storageMock() {
+export default function storageMock() {
   return {
     storage: {},
     setItem (key, value) {

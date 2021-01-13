@@ -1,5 +1,5 @@
-const storageMock = require('./storage-mock')
-const oneHandle = require('../index')
+import storageMock from './storage-mock'
+import oneHandle from '../index'
 global.sessionStorage = storageMock()
 global.localStorage = storageMock()
 function wait (time, data = 0) {
