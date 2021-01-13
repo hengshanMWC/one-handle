@@ -6,6 +6,12 @@ one-handle接受一个return Promise的函数生成一个闭包，
 函数，后面函数都会归到队列里面，等待第一次函数完成，当
 然，第一个的Promise状态也会影响到队列里面的状态
 （resolve还是reject）
+
+通过oneHandle可以创造出4中时效性的缓存
+- oneHandle(fn): 并发时效性
+- oneHandle(fn, true)：内存时效性(例如刷新页面就没了)
+- oneHandle(fn, '本地缓存的key名', 'sessionStorage'): sessionStorage时效性
+- oneHandle(fn, '本地缓存的key名'): localStorage时效性
 ## Introduction
 下载方式
 
@@ -28,10 +34,14 @@ function wait (time, data = 0) {
     setTimeout(() => resolve(data), time)
   })
 }
+```
+```js
 const $wait1 = oneHandle(wait)
 $wait1(1000, 1).then(data => console.log('只触发一次', data)) // 只触发一次 1
 $wait1(4000, 2).then(data => console.log('只触发一次', data)) // 只触发一次 1
 $wait1(1, 3).then(data => console.log('只触发一次', data)) // 只触发一次 1
+```
+```js
 // 使用缓存，第二个参数传true
 const $wait2 = oneHandle(wait, true)
 // 第一次调用成功返回的值缓存起来，下次调用都会取这个值
@@ -40,6 +50,9 @@ $wait2(1, false).then(data => {
     return $wait2(1, 50)
   })
     .then(data => console.log('使用缓存', data)) // 使用缓存 false
+```
+值得留意的时，当去取本地缓存的时候，oneHandle会试图去JSON.parse转化成object或者转化成布尔值
+```js
 // 通过设置catch为字符串开启本地缓存
 const $wait3 = oneHandle(wait, 'key')
 let $wait4
