@@ -51,7 +51,7 @@ $wait2(1, false).then(data => {
   })
     .then(data => console.log('使用缓存', data)) // 使用缓存 false
 ```
-值得留意的时，当去取本地缓存的时候，oneHandle会试图去JSON.parse转化成object或者转化成布尔值
+值得留意的时，当去取本地缓存的时候，oneHandle会试图去JSON.parse转化成object
 ```js
 // 通过设置catch为字符串开启本地缓存
 const $wait3 = oneHandle(wait, 'key')
