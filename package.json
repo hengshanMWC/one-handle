@@ -11,7 +11,9 @@
     "test": "jest"
   },
   "files": [
-    "index.js"
+    "index.js",
+    "utils.js",
+    "dist"
   ],
   "repository": {
     "type": "git",
