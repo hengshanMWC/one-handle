@@ -89,6 +89,3 @@ function stringify (data) {
     return data
   }
 }
-if ('undefined' !== typeof module) {
-  module.exports = oneHandle
-}

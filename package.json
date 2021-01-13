@@ -29,12 +29,12 @@
   "homepage": "https://github.com/hengshanMWC/one-handle#readme",
   "devDependencies": {
     "@types/jest": "^25.2.1",
-    "camelcase": "6.0.0",
+    "camelcase": "^6.2.0",
     "jest": "^25.5.4",
     "jest-localstorage-mock": "^2.4.6",
-    "rollup": "2.21.0",
-    "rollup-plugin-terser": "6.1.0",
-    "validate-npm-package-name": "3.0.0"
+    "rollup": "^2.36.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "validate-npm-package-name": "^3.0.0"
   },
   "dependencies": {}
 }
