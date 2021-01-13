@@ -3,9 +3,9 @@
  * 多次调用，响应一次，可开缓存
  * 
  * @param {Function} fn 一个返回Promise的函数 | 是否开启缓存
- * @param {boolean | string} cache 是否开启闭包缓存 | 开启localStorage
- * @param {string | object} [storageType] 缓存方式 | 上下文
- * @param {object | string} context 上下文 | 缓存方式
+ * @param {boolean | string} cache 是否开启闭包缓存 | 开启localStorage的key（默认为localStorage，你可以通过storageType来进行选择是localStorage|sessionStorage）
+ * @param {string | object} [storageType] 本地缓存方式 | 上下文
+ * @param {object | string} context 上下文 | 本地缓存方式
  * @returns {()=>Promise} return Promise的闭包
  */
 function oneHandle (fn, cache, storageType, context) {
@@ -47,12 +47,14 @@ function oneHandle (fn, cache, storageType, context) {
     result.$getData = function () {
       return cacheData
     }
-  }
-  if (typeof cache === 'string') {
     result.$clear = function () {
-      g[storageType].removeItem(cache)
+      if (typeof cache === 'string') {
+        g[storageType].removeItem(cache)
+      }
       cacheData = null
     }
+  }
+  if (typeof cache === 'string') {
     result.$update = function () {
       cacheData = getCache(cache, storageType)
     }
