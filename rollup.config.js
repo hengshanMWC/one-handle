@@ -29,6 +29,7 @@ function getTerserOptions () {
 function getBabelOptions () {
   return babel({
     exclude: 'node_modules/**',
+    babelHelpers: 'bundled'
   })
 }
 export default [
