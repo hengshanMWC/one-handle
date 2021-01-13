@@ -1,6 +1,7 @@
 import validateNpmPackageName from 'validate-npm-package-name'
 import camelcase from 'camelcase'
 import { terser } from 'rollup-plugin-terser'
+import babel from "@rollup/plugin-babel"
 import pkg from './package.json'
 let moduleName = pkg.name
 // 检查是否是合法的 npm 包名
@@ -31,6 +32,9 @@ export default [
           unsafe_comps: true,
           warnings: false
         }
+      }),
+      babel({
+        exclude: 'node_modules/**',
       })
     ]
   },
@@ -48,6 +52,9 @@ export default [
           unsafe_comps: true,
           warnings: false
         }
+      }),
+      babel({
+        exclude: 'node_modules/**',
       })
     ]
   },
@@ -66,6 +73,9 @@ export default [
           unsafe_comps: true,
           warnings: false
         }
+      }),
+      babel({
+        exclude: 'node_modules/**',
       })
     ]
   }
