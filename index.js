@@ -1,4 +1,5 @@
 'use strict'
+import { g, getCache, setCache } from './utils'
 const KEY = 'oneHandle'
 /**
  * 多次调用，响应一次，可开缓存
@@ -63,29 +64,4 @@ export default function oneHandle (fn, cache, storageType, context) {
     result.$cacheKey = cacheKey
   }
   return result
-}
-const g = typeof window === 'object' ? window : global
-function getCache (cacheKey, storageType) {
-  if (cacheKey) {
-    const data = g[storageType].getItem(cacheKey)
-    if (data === null) return null 
-    try {
-      return JSON.parse(data)
-    } catch (e) {
-      return data
-    }
-  }
-}
-function setCache (data, cacheKey, storageType) {
-  if (cacheKey) {
-    g[storageType].setItem(cacheKey, stringify(data))
-  }
-  return data
-}
-function stringify (data) {
-  if (typeof data === 'object') {
-    return JSON.stringify(data)
-  } else {
-    return data
-  }
 }
