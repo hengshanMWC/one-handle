@@ -2,8 +2,11 @@
   "name": "one-handle",
   "version": "1.0.1",
   "description": "多次调用，响应一次，可开缓存",
-  "main": "index.js",
+  "main": "dist/oneHandle.cjs.min.js",
+  "model": "dist/oneHandle.es.min.js",
+  "unpkg": "/dist/boxCat.iife.min.js",
   "scripts": {
+    "build": "rollup --config",
     "test:cov": "jest --coverage",
     "test": "jest"
   },
@@ -26,8 +29,12 @@
   "homepage": "https://github.com/hengshanMWC/one-handle#readme",
   "devDependencies": {
     "@types/jest": "^25.2.1",
+    "camelcase": "6.0.0",
     "jest": "^25.5.4",
-    "jest-localstorage-mock": "^2.4.6"
+    "jest-localstorage-mock": "^2.4.6",
+    "rollup": "2.21.0",
+    "rollup-plugin-terser": "6.1.0",
+    "validate-npm-package-name": "3.0.0"
   },
   "dependencies": {}
 }

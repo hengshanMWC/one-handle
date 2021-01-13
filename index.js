@@ -9,7 +9,7 @@ const KEY = 'oneHandle'
  * @param {object | string} context 上下文 | 本地缓存方式
  * @returns {()=>Promise} return Promise的闭包
  */
-function oneHandle (fn, cache, storageType, context) {
+export default function oneHandle (fn, cache, storageType, context) {
   const queueThen = []
   const queueCatch = []
   if (typeof storageType === 'object') {
