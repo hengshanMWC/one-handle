@@ -55,7 +55,7 @@ test('localStorage&getCache', done => {
       return $wait2(1, {a: 2})
     })
     .then(data => {
-      expect(objValue).toBe(data)
+      expect(objValue).toStrictEqual(data)
       $wait2.$clear()
       $wait.$update()
       expect($wait.$getData()).toBeNull()

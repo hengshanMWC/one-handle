@@ -1,4 +1,5 @@
 'use strict'
+const KEY = 'oneHandle'
 /**
  * 多次调用，响应一次，可开缓存
  * 
@@ -15,8 +16,9 @@ function oneHandle (fn, cache, storageType, context) {
     [ storageType, context ] = [ context, storageType ]
   }
   if (cache && !storageType) storageType = 'localStorage'
-  let cacheData = getCache(cache, storageType)
-  function result () {
+  const cacheKey = typeof cache === 'string' && `${KEY}-${cache}`
+  let cacheData = getCache(cacheKey, storageType)
+  function result (...arg) {
     return new Promise((resolve, reject) => {
       if (cacheData !== undefined && cacheData !== null) {
         resolve(cacheData)
@@ -26,10 +28,10 @@ function oneHandle (fn, cache, storageType, context) {
       } else {
         queueThen.push(resolve)
         queueCatch.push(reject)
-        fn.apply(context, arguments)
+        fn.apply(context, arg)
           .then(data => {
             if (cache) {
-              cacheData = setCache(data, cache, storageType)
+              cacheData = setCache(data, cacheKey, storageType)
             }
             queueThen.forEach(then => then(data))
             queueThen.length = 0
@@ -48,23 +50,23 @@ function oneHandle (fn, cache, storageType, context) {
       return cacheData
     }
     result.$clear = function () {
-      if (typeof cache === 'string') {
-        g[storageType].removeItem(cache)
+      if (cacheKey) {
+        g[storageType].removeItem(cacheKey)
       }
       cacheData = null
     }
   }
-  if (typeof cache === 'string') {
+  if (cacheKey) {
     result.$update = function () {
-      cacheData = getCache(cache, storageType)
+      cacheData = getCache(cacheKey, storageType)
     }
   }
   return result
 }
 const g = typeof window === 'object' ? window : global
-function getCache (cache, storageType) {
-  if (typeof cache === 'string') {
-    const data = g[storageType].getItem(cache)
+function getCache (cacheKey, storageType) {
+  if (cacheKey) {
+    const data = g[storageType].getItem(cacheKey)
     if (data === null) return null 
     try {
       return JSON.parse(data)
@@ -73,11 +75,18 @@ function getCache (cache, storageType) {
     }
   }
 }
-function setCache (data, cache, storageType) {
-  if (typeof cache === 'string') {
-    g[storageType].setItem(cache, data)
+function setCache (data, cacheKey, storageType) {
+  if (cacheKey) {
+    g[storageType].setItem(cacheKey, stringify(data))
   }
   return data
+}
+function stringify (data) {
+  if (typeof data === 'object') {
+    return JSON.stringify(data)
+  } else {
+    return data
+  }
 }
 if ('undefined' !== typeof module) {
   module.exports = oneHandle
