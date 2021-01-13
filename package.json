@@ -1,6 +1,6 @@
 {
   "name": "one-handle",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "多次调用，响应一次，可开缓存",
   "main": "dist/oneHandle.cjs.min.js",
   "model": "dist/oneHandle.es.min.js",
