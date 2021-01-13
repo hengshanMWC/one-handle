@@ -22,6 +22,8 @@ yarn add one-handle
 // 引入方式
 // esm
 import oneHandle from 'one-handle'
+// cjs
+const oneHandle = require('one-handle')
 // script
 <script src="https://unpkg.com/one-handle"></script>
 window.oneHandle
