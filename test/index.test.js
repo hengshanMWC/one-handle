@@ -39,9 +39,9 @@ test('localStorage&getCache', done => {
   })
     .then(data => {
       expect(VALUE).toBe(data)
-      expect(localStorage.getItem(KEY)).toBe(data)
+      expect(localStorage.getItem($wait.$cacheKey)).toBe(data)
       $wait.$clear()
-      expect(localStorage.getItem(KEY)).toBe(null)
+      expect(localStorage.getItem($wait.$cacheKey)).toBe(null)
       return $wait(1, objValue)
     })
     .then(data => {
@@ -86,9 +86,9 @@ test('sessionStorage&context', done => {
   })
     .then(data => {
       expect(VALUE).toBe(data)
-      expect(sessionStorage.getItem(KEY)).toBe(data)
+      expect(sessionStorage.getItem($wait.$cacheKey)).toBe(data)
       $wait.$clear()
-      expect(sessionStorage.getItem(KEY)).toBe(null)
+      expect(sessionStorage.getItem($wait.$cacheKey)).toBe(null)
       return $wait(1, true)
     })
     .then(data => {

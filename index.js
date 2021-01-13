@@ -60,6 +60,7 @@ function oneHandle (fn, cache, storageType, context) {
     result.$update = function () {
       cacheData = getCache(cacheKey, storageType)
     }
+    result.$cacheKey = cacheKey
   }
   return result
 }
