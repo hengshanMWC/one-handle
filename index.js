@@ -4,7 +4,7 @@
  * 
  * @param {Function} fn 一个返回Promise的函数 | 是否开启缓存
  * @param {boolean | string} cache 是否开启闭包缓存 | 开启localStorage
- * @param {string | object} storageType 缓存方式 | 上下文
+ * @param {string | object} [storageType] 缓存方式 | 上下文
  * @param {object | string} context 上下文 | 缓存方式
  * @returns {()=>Promise} return Promise的闭包
  */
@@ -14,6 +14,7 @@ function oneHandle (fn, cache, storageType, context) {
   if (typeof storageType === 'object') {
     [ storageType, context ] = [ context, storageType ]
   }
+  if (cache && !storageType) storageType = 'localStorage'
   let cacheData = getCache(cache, storageType)
   function result () {
     return new Promise((resolve, reject) => {
@@ -28,7 +29,7 @@ function oneHandle (fn, cache, storageType, context) {
         fn.apply(context, arguments)
           .then(data => {
             if (cache) {
-              cacheData = setCache(cache, storageType, data)
+              cacheData = setCache(data, cache, storageType)
             }
             queueThen.forEach(then => then(data))
             queueThen.length = 0
@@ -45,6 +46,7 @@ function oneHandle (fn, cache, storageType, context) {
   if (typeof cache === 'string') {
     result.$clear = function () {
       g[storageType].removeItem(cache)
+      cacheData = undefined
     }
   }
   return result
@@ -52,10 +54,16 @@ function oneHandle (fn, cache, storageType, context) {
 const g = typeof window === 'object' ? window : global
 function getCache (cache, storageType) {
   if (typeof cache === 'string') {
-    return g[storageType].getItem(cache)
+    const data = g[storageType].getItem(cache)
+    if (data === null) return null 
+    try {
+      return JSON.parse(data)
+    } catch (e) {
+      return data
+    }
   }
 }
-function setCache (cache, storageType, data) {
+function setCache (data, cache, storageType) {
   if (typeof cache === 'string') {
     g[storageType].setItem(cache, data)
   }
