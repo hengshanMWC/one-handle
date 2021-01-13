@@ -16,7 +16,21 @@ if (/^@.+\//g.test(moduleName)) {
 
 // 将其他形式的命名规则转换为驼峰命名
 moduleName = camelcase(moduleName)
-
+function getTerserOptions () {
+  return terser({
+    compress: {
+      pure_getters: true,
+      unsafe: true,
+      unsafe_comps: true,
+      warnings: false
+    }
+  })
+}
+function getBabelOptions () {
+  return babel({
+    exclude: 'node_modules/**',
+  })
+}
 export default [
   {
     input: 'index.js',
@@ -25,17 +39,8 @@ export default [
       format: 'es'
     },
     plugins: [
-      terser({
-        compress: {
-          pure_getters: true,
-          unsafe: true,
-          unsafe_comps: true,
-          warnings: false
-        }
-      }),
-      babel({
-        exclude: 'node_modules/**',
-      })
+      getTerserOptions(),
+      getBabelOptions()
     ]
   },
   {
@@ -45,17 +50,8 @@ export default [
       format: 'cjs'
     },
     plugins: [
-      terser({
-        compress: {
-          pure_getters: true,
-          unsafe: true,
-          unsafe_comps: true,
-          warnings: false
-        }
-      }),
-      babel({
-        exclude: 'node_modules/**',
-      })
+      getTerserOptions(),
+      getBabelOptions()
     ]
   },
   {
@@ -66,17 +62,8 @@ export default [
       name: moduleName
     },
     plugins: [
-      terser({
-        compress: {
-          pure_getters: true,
-          unsafe: true,
-          unsafe_comps: true,
-          warnings: false
-        }
-      }),
-      babel({
-        exclude: 'node_modules/**',
-      })
+      getTerserOptions(),
+      getBabelOptions()
     ]
   }
 ]

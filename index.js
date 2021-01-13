@@ -1,4 +1,3 @@
-'use strict'
 import { g, getCache, setCache } from './utils'
 const KEY = 'oneHandle'
 /**
