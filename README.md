@@ -83,4 +83,5 @@ $wait.$clear() // 清除缓存
 ```js
 const $wait = oneHandle(wait, 'key')
 $wait.$update() // 从本地缓存中更新
+$wait.$cacheKey // oneHandle-key。缓存的真正key
 ```
